@@ -5,9 +5,11 @@ import { RecipeModule } from './recipe/recipe.module';
 import { DoctorModule } from './doctor/doctor.module';
 import { PatientModule } from './patient/patient.module';
 import { UserModule } from './user/user.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [RecipeModule, DoctorModule, PatientModule, UserModule],
+  imports: [ConfigModule.forRoot(), RecipeModule, DoctorModule, PatientModule, UserModule, MongooseModule.forRoot(process.env.MONGO_URL)],
   controllers: [AppController],
   providers: [AppService],
 })

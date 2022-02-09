@@ -3,11 +3,10 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-
+  const app = await NestFactory.create(AppModule, {cors: true, logger: console});
   const config = new DocumentBuilder()
     .setTitle('MedAid API')
-    .setDescription('Doctor/Patient cirtual assistent.')
+    .setDescription('Doctor/Patient virtual assistent.')
     .setVersion('1.0')
     .addTag('medaid')
     .build();
