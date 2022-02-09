@@ -4,12 +4,10 @@ import { UserDto } from './user.dto';
 
 @Injectable()
 export class UserService {
-    private readonly users: User[] = [
-        { id: 1, name: 'Black'},
-        { id: 2, name: 'Red'}];
+    private readonly users: User[];
 
     findUser(id: number): User{
-        return this.users.find((user) => {user.id === id});
+        return this.users.find((user) => user.id === id);
     }
 
     createUser(newUser: UserDto){

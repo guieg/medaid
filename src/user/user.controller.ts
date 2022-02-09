@@ -8,11 +8,16 @@ export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @Get(':id')
-    getUser(@Param('id', ParseIntPipe) id: number): any{
+    getUser(@Param('id', ParseIntPipe) id: number): User{
       return this.userService.findUser(id);
     }
 
-    @Post()
+    @Get('')
+    getUsers(): User[]{
+      return this.userService.listAllUsers();
+    }
+
+    @Post('')
     async postUser(@Body() user: UserDto ){
         this.userService.createUser(user);
     }
