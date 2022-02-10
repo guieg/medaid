@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put } from '@nestjs/common';
 import { DoctorDto } from 'src/doctor/doctor.dto';
 import { Patient } from 'src/patient/patient';
 import { PatientDto } from 'src/patient/patient.dto';
@@ -37,34 +37,54 @@ export class UserController {
     }
 
     @Put(':id/role/patient')
-    async postPatient(@Param('id') id: string, @Body() patient: PatientDto ){
+    async setPatient(@Param('id') id: string, @Body() patient: PatientDto ){
         this.userService.putPatient(id, patient);
     }
 
     @Put(':id/role/doctor')
-    async postDoctor(@Param('id') id: string, @Body() doctor: DoctorDto ){
+    async setDoctor(@Param('id') id: string, @Body() doctor: DoctorDto ){
         this.userService.putDoctor(id, doctor);
     }
 
-    @Put(':id/role/cpf')
+    @Patch(':id/role/cpf')
     async putCpf(@Param('id') id:string, @Body() cpf: string): Promise<User>{
       return this.userService.updateCpf(id, cpf);
     }
 
-    @Put(':id/role/doctor/crm')
+    @Patch(':id/role/doctor/crm')
     async putCrm(@Param('id') id:string, @Body() crm: string): Promise<User>{
       return this.userService.updateCrm(id, crm);
     }
 
-    @Put(':id/role/doctor/cqe')
+    @Patch(':id/role/doctor/cqe')
     async putCqe(@Param('id') id:string, @Body() cqe: string): Promise<User>{
       return this.userService.updateCqe(id, cqe);
     }
 
 
-    @Put(':id/role/patient/description')
+    @Patch(':id/role/patient/description')
     async putDescription(@Param('id') id:string, @Body() description: string): Promise<User>{
       return this.userService.updateCqe(id, description);
+    }
+
+    @Patch(':id/role/doctor/patients')
+    async putPatients(@Param('id') id:string, @Body() patient_id: string): Promise<User>{
+      return this.userService.addPatient(id, patient_id);
+    }
+
+    @Delete(':id/role/doctor/patients')
+    async deletePatientFormDoctorPatients(@Param('id') id:string, @Body() patient_id: string): Promise<User>{
+      return this.userService.rmPatient(id, patient_id);
+    }
+
+    @Get(':id/role/doctor/patients')
+    async getPatientsFromDoctor(@Param('id') id:string){
+      return this.userService.listPatients(id);
+    }
+
+    @Get(':id/role/doctor/patients/:patientId')
+    async getPatientFromDoctor(@Param('id') id:string, @Param('patientId') patient_id:string){
+      return this.userService.getPatient(id, patient_id);
     }
 
 }

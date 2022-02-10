@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { util } from 'prettier';
+import { Doctor } from 'src/doctor/doctor';
 import { Role } from 'src/role/role';
 import { User } from 'src/user/user';
 import { UserService } from 'src/user/user.service';
@@ -22,6 +23,8 @@ export class RecipeService {
         const doctorId = newRecipe.doctor;
         let patient: User = await this.UserModel.findById(patientId).exec();
         let doctor: User = await this.UserModel.findById(doctorId).exec();
+        if (!(doctor.role as Doctor).patients.includes(patientId))
+            throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
         const createdRecipe = new this.RecipeModel(newRecipe);
         patient.role.recipes.push(createdRecipe._id.toString());
         doctor.role.recipes.push(createdRecipe._id.toString());

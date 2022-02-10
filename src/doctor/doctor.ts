@@ -6,4 +6,6 @@ export class Doctor extends Role{
     crm: string;
     @Prop()
     cqe: string; 
+    @Prop()
+    patients: string[];
 }
