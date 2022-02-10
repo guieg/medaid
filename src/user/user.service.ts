@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Mode } from 'fs';
 import { Model } from 'mongoose';
+import { Recipe } from 'src/recipe/recipe';
+import { RecipeSchema } from 'src/recipe/recipe.schema';
 import { User } from './user';
 import { UserDto } from './user.dto';
 
@@ -9,8 +11,6 @@ import { UserDto } from './user.dto';
 export class UserService {
 
     constructor(@InjectModel('User') private readonly UserModel: Model<User>){ }
-
-    private readonly users: User[];
 
     async findUser(id: string){
         return await this.UserModel.findById(id).exec();
