@@ -1,17 +1,13 @@
 import { Prop, Schema} from "@nestjs/mongoose";
 import { Recipe } from "src/recipe/recipe";
+import { Role } from "src/role/role";
 
 @Schema({ collection: 'Users' })
 export class User{
     @Prop()
     name: string;
     @Prop()
-    id: string;
+    role: Role;
     @Prop()
-    type: string;
-    @Prop()
-    recipes: string[];
-
+    email: string;
 }
-
-//nome, crm. rqe

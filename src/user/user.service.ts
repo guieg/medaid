@@ -2,6 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Mode } from 'fs';
 import { Model } from 'mongoose';
+import { Doctor } from 'src/doctor/doctor';
+import { DoctorDto } from 'src/doctor/doctor.dto';
+import { Patient } from 'src/patient/patient';
+import { PatientDto } from 'src/patient/patient.dto';
 import { Recipe } from 'src/recipe/recipe';
 import { RecipeSchema } from 'src/recipe/recipe.schema';
 import { User } from './user';
@@ -32,5 +36,55 @@ export class UserService {
 
     async deleteUser(id: string){
         return await this.UserModel.deleteOne({_id: id}).exec()
+    }
+
+    async postPatient(id: string, role: PatientDto){
+        let user = await this.UserModel.findById(id).exec();
+        let patient = new Patient();
+        patient.description = role.description;
+        patient.cpf = role.cpf
+        user.role = patient;
+        return await this.updateUser(id, user);
+    }
+
+    async postDoctor(id: string, role: DoctorDto){
+        let user = await this.UserModel.findById(id).exec();
+        let doctor = new Doctor();
+        doctor.crm = role.crm;
+        if (role.cqe != "")
+            doctor.cqe = role.cqe;
+        doctor.cpf = role.cpf
+        user.role = doctor;
+        return await this.updateUser(id, user);
+    }
+
+    async updateCpf(id: string, cpf: string){
+        let user = await this.UserModel.findById(id).exec();
+        user.role.cpf = cpf;
+        return await this.updateUser(id, user);
+    }
+
+    async updateCrm(id: string, crm: string){
+        let user = await this.UserModel.findById(id).exec();
+        let doctor = user.role as Doctor;
+        doctor.crm = crm;
+        user.role = doctor;
+        return await this.updateUser(id, user);
+    }
+
+    async updateCqe(id: string, cqe: string){
+        let user = await this.UserModel.findById(id).exec();
+        let doctor = user.role as Doctor;
+        doctor.cqe = cqe;
+        user.role = doctor;
+        return await this.updateUser(id, user);
+    }
+
+    async updateDescription(id: string, description: string){
+        let user = await this.UserModel.findById(id).exec();
+        let patient = user.role as Patient;
+        patient.description = description;
+        user.role = patient;
+        return await this.updateUser(id, user);
     }
 }
