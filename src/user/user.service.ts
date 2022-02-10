@@ -38,22 +38,26 @@ export class UserService {
         return await this.UserModel.deleteOne({_id: id}).exec()
     }
 
-    async postPatient(id: string, role: PatientDto){
+    async putPatient(id: string, role: PatientDto){
         let user = await this.UserModel.findById(id).exec();
         let patient = new Patient();
+        let recipes: string[] = [];
         patient.description = role.description;
         patient.cpf = role.cpf
+        patient.recipes = recipes;
         user.role = patient;
         return await this.updateUser(id, user);
     }
 
-    async postDoctor(id: string, role: DoctorDto){
+    async putDoctor(id: string, role: DoctorDto){
         let user = await this.UserModel.findById(id).exec();
         let doctor = new Doctor();
+        let recipes: string[] = [];
         doctor.crm = role.crm;
         if (role.cqe != "")
             doctor.cqe = role.cqe;
         doctor.cpf = role.cpf
+        doctor.recipes = recipes;
         user.role = doctor;
         return await this.updateUser(id, user);
     }

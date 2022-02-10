@@ -36,14 +36,14 @@ export class UserController {
       this.userService.deleteUser(id);
     }
 
-    @Post(':id/role/patient')
+    @Put(':id/role/patient')
     async postPatient(@Param('id') id: string, @Body() patient: PatientDto ){
-        this.userService.postPatient(id, patient);
+        this.userService.putPatient(id, patient);
     }
 
-    @Post(':id/role/doctor')
+    @Put(':id/role/doctor')
     async postDoctor(@Param('id') id: string, @Body() doctor: DoctorDto ){
-        this.userService.postDoctor(id, doctor);
+        this.userService.putDoctor(id, doctor);
     }
 
     @Put(':id/role/cpf')
