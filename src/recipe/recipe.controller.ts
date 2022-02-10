@@ -7,9 +7,9 @@ import { RecipeService } from './recipe.service';
 @Controller()
 export class RecipeController {
 
-    constructor(private readonly userService: UserService, private readonly recipeService: RecipeService) {}
-    @Get('user/:id/recipes')
-    async getUserRecipes(@Param('id') id:string): Promise<Recipe[]>{
+    constructor(private readonly recipeService: RecipeService) {}
+    @Get('/user/:id/recipes')
+    async getUserRecipes(@Param('id') id:string): Promise<string[]>{
       return this.recipeService.listUserRecipes(id);
     }
 
