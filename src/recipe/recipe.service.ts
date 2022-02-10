@@ -24,7 +24,7 @@ export class RecipeService {
         let patient: User = await this.UserModel.findById(patientId).exec();
         let doctor: User = await this.UserModel.findById(doctorId).exec();
         if (!(doctor.role as Doctor).patients.includes(patientId))
-            throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+            return "Forbidden";
         const createdRecipe = new this.RecipeModel(newRecipe);
         patient.role.recipes.push(createdRecipe._id.toString());
         doctor.role.recipes.push(createdRecipe._id.toString());

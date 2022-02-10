@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { Recipe } from './recipe';
 import { RecipeDto } from './recipe.dto';
 import { RecipeService } from './recipe.service';
@@ -14,7 +14,11 @@ export class RecipeController {
 
     @Post('/recipes')
     async postUserRecipe(@Body() recipe: RecipeDto){
-      this.recipeService.createRecipe(recipe);
+        let response =  await this.recipeService.createRecipe(recipe);
+        if (response == "Forbidden"){
+          throw new HttpException(response, HttpStatus.FORBIDDEN);
+        }
+        return response
     }
 
     @Put('/recipes/:id')
@@ -27,8 +31,13 @@ export class RecipeController {
       return this.recipeService.listAllRecipes();
     }
 
+    @Get('/recipes/:id')
+    async getRecipe(@Param('id') id: string){
+      return this.recipeService.findRecipe(id);
+    }
+
     @Delete('/recipes/:id')
-    async deleteRecipe(@Param('id') id:string){
+    async deleteRecipe(@Param('id') id: string){
       return this.recipeService.deleteRecipe(id);
     }
 

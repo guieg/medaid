@@ -67,13 +67,13 @@ export class UserController {
       return this.userService.updateCqe(id, description);
     }
 
-    @Patch(':id/role/doctor/patients')
-    async putPatients(@Param('id') id:string, @Body() patient_id: string): Promise<User>{
+    @Patch(':id/role/doctor/patients/:patientId')
+    async putPatients(@Param('id') id:string, @Param('patientId') patient_id:string): Promise<User>{
       return this.userService.addPatient(id, patient_id);
     }
 
-    @Delete(':id/role/doctor/patients')
-    async deletePatientFormDoctorPatients(@Param('id') id:string, @Body() patient_id: string): Promise<User>{
+    @Delete(':id/role/doctor/patients/:patientId')
+    async deletePatientFormDoctorPatients(@Param('id') id:string, @Param('patientId') patient_id:string): Promise<User>{
       return this.userService.rmPatient(id, patient_id);
     }
 
