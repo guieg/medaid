@@ -6,4 +6,6 @@ export class Role {
     recipes: string[];
     @Prop()
     cpf: string;
+    @Prop()
+    role: string;
 }

@@ -45,6 +45,7 @@ export class UserService {
         patient.description = role.description;
         patient.cpf = role.cpf
         patient.recipes = recipes;
+        patient.role = "patient";
         user.role = patient;
         return await this.updateUser(id, user);
     }
@@ -53,11 +54,12 @@ export class UserService {
         let user = await this.UserModel.findById(id).exec();
         let doctor = new Doctor();
         let recipes: string[] = [];
-        let patients: string[] = []
+        let patients: string[] = [];
         doctor.cqe = role.cqe;
         doctor.cpf = role.cpf
         doctor.recipes = recipes;
         doctor.patients = patients
+        doctor.role = "doctor";
         user.role = doctor;
         return await this.updateUser(id, user);
     }
